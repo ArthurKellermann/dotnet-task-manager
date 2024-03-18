@@ -2,8 +2,9 @@
 using TaskManager.Domain.Entities;
 using Task = TaskManager.Domain.Entities.Task;
 
+
 namespace TaskManager.Infrastructure.Database;
-public class TaskManagerDbContext: DbContext
+public class TaskManagerDbContext : DbContext
 {
     public TaskManagerDbContext(DbContextOptions<TaskManagerDbContext> options)
         : base(options)

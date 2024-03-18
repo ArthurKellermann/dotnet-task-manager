@@ -1,7 +1,7 @@
 ﻿using TaskManager.Domain.Entities;
 
 namespace TaskManager.Domain.Repositories.Interfaces;
-interface IUserRepository
+public interface IUserRepository
 {
     Task<List<User>> GetAll();
     Task<User> GetById(int id);
