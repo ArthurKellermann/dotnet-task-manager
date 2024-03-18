@@ -2,7 +2,7 @@
 using TaskManager.Domain.Repositories.Interfaces;
 
 namespace TaskManager.Application.UseCases.Users.GetUserById;
-public class GetUserById
+public class GetUserByIdUseCase
 {
     private readonly IUserRepository userRepository;
 

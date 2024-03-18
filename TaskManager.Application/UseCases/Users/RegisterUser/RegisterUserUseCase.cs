@@ -4,27 +4,16 @@ using TaskManager.Domain.Repositories.Interfaces;
 
 namespace TaskManager.Application.UseCases.Users.RegisterUser
 {
-    /// <summary>
-    /// Use case for register a new user.
-    /// </summary>
     public class RegisterUserUseCase
     {
         private readonly IUserRepository userRepository;
 
-        /// <summary>
-        /// Use case constructor.
-        /// </summary>
-        /// <param name="userRepository">Repositório de usuários.</param>
         public RegisterUserUseCase(IUserRepository userRepository)
         {
             this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
-        /// <summary>
-        /// Execute the use case.
-        /// </summary>
-        /// <param name="userData">User data to be registered.</param>
-        /// <returns>The registered user.</returns>
+      
         public async Task<User> Execute(User userData)
         {
             if (userData == null)
