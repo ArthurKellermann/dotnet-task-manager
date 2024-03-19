@@ -6,6 +6,11 @@ public class DeleteUserUseCase
 {
     private readonly IUserRepository userRepository;
 
+    public DeleteUserUseCase(IUserRepository userRepository)
+    {
+        this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+    }
+
     public async Task<bool> Execute(int id)
     {
         User user = await this.userRepository.GetById(id);

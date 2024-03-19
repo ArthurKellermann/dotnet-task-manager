@@ -1,27 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using TaskManager.Domain.Common.CustomExceptions;
 using TaskManager.Domain.Entities;
 using TaskManager.Domain.Repositories.Interfaces;
 
-namespace TaskManager.Application.UseCases.Users.UpdateUser;
-public class UpdateUserUseCase
+namespace TaskManager.Application.UseCases.Users.UpdateUser
 {
-    private readonly IUserRepository userRepository;
-
-    public async Task<User> Execute(User user, int id)
+    public class UpdateUserUseCase
     {
-        User userExists = await this.userRepository.GetById(id);
+        private readonly IUserRepository userRepository;
 
-        if (userExists == null)
+        public UpdateUserUseCase(IUserRepository userRepository)
         {
-            throw new ArgumentNullException("User does not exists.");
+            this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
-        await this.userRepository.Update(user, id);
+        public async Task<User> Execute(User user, int id)
+        {
+            User userExists = await this.userRepository.GetById(id);
 
-        return user;
+            try
+            {
+                if (userExists == null)
+                {
+                    throw new UserDoesNotExistException("User does not exist.");
+                }
+
+                await this.userRepository.Update(user, id);
+
+                return user;
+            }
+            catch (UserDoesNotExistException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error during the user registration: " + e.Message, e);
+            }
+        }
     }
 }

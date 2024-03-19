@@ -1,20 +1,28 @@
-﻿using TaskManager.Domain.Entities;
+﻿using TaskManager.Domain.Common.CustomExceptions;
+using TaskManager.Domain.Entities;
 using TaskManager.Domain.Repositories.Interfaces;
 
-namespace TaskManager.Application.UseCases.Users.GetUserById;
-public class GetUserByIdUseCase
+namespace TaskManager.Application.UseCases.Users.GetUserById
 {
-    private readonly IUserRepository userRepository;
-
-    public async Task<User> Execute(int id)
+    public class GetUserByIdUseCase
     {
-        User user = await this.userRepository.GetById(id);
+        private readonly IUserRepository userRepository;
 
-        if (user == null)
+        public GetUserByIdUseCase(IUserRepository userRepository)
         {
-            throw new ArgumentNullException("User does not exists.");
+            this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
-        return user;
-    }  
+        public async Task<User> Execute(int id)
+        {
+            User user = await this.userRepository.GetById(id);
+
+            if (user == null)
+            {
+                throw new UserDoesNotExistException("User does not exist.");
+            }
+
+            return user;
+        }
+    }
 }
